@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Get Data From An API With React and ASP .NET CORE REACT Dot net core 2.1.7
 
 In the project directory, you can run:
 
