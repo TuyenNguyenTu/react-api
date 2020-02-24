@@ -198,7 +198,6 @@ class Student extends React.Component {
         </Modal>
 
         <div>
-          <h1>ASP .NET CORE WITH REACTJS</h1>
           <hr />
         </div>
         <table className="table table-hover">
