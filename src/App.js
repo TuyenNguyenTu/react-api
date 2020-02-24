@@ -30,6 +30,7 @@ class App extends React.Component {
     else{
       return (
         <div className="App">
+          <center className="title card-title">List Student</center>
           <table className="table table-hover">
             <thead>
               <tr>
@@ -37,6 +38,7 @@ class App extends React.Component {
                 <td>Address</td>
                 <td>Age</td>
                 <td>Status</td>
+                <td>Action</td>
               </tr>
             </thead>
             <tbody>
@@ -46,6 +48,10 @@ class App extends React.Component {
                   <td>{item.address}</td>
                   <td>{item.age}</td>
                   <td>{item.status===true?"Active":"Block"}</td>
+                  <td>
+                    <button className="btn btn-success">Edit</button>
+                    <button className="btn btn-danger">Delete</button>
+                  </td>
                 </tr>
               ))}
               
