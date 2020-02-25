@@ -23,14 +23,14 @@ class Student extends React.Component {
         status: true
       }
     }
-    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModalAdd = this.toggleModalAdd.bind(this);
     this.addStudent = this.addStudent.bind(this);
     this._refreshStudent = this._refreshStudent.bind(this);
   }
   componentWillMount() {
     this._refreshStudent();
   };
-  toggleModal() {
+  toggleModalAdd() {
     this.setState({
       showModal: !this.state.showModal
     })
@@ -115,10 +115,10 @@ class Student extends React.Component {
     return (
       <div>
         <h1>REACT JS REST API </h1>
-        <Button color="primary" onClick={this.toggleModal}>Add new student</Button>
+        <Button color="primary" onClick={this.toggleModalAdd}>Add new student</Button>
         <Modal isOpen={this.state.showModal} modalTransition={{ timeout: 700 }} backdropTransition={{ timeout: 1300 }}
-          toggle={this.toggleModal} >
-          <ModalHeader toggle={this.toggleModal}>Add student</ModalHeader>
+          toggle={this.toggleModalAdd} >
+          <ModalHeader toggle={this.toggleModalAdd}>Add student</ModalHeader>
           <ModalBody>
             <Form>
               <FormGroup>
