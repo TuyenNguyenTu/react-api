@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Input, Label, FormGroup, InputGroup } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, Input, Label, FormGroup } from 'reactstrap';
 
 class Student extends React.Component {
   constructor(params) {
@@ -8,7 +8,7 @@ class Student extends React.Component {
     this.state = {
       students: [],
       showModal: false,
-      showModalEdit:false,
+      showModalEdit: false,
       newStudent: {
         name: '',
         address: '',
@@ -25,14 +25,10 @@ class Student extends React.Component {
     }
     this.toggleModal = this.toggleModal.bind(this);
     this.addStudent = this.addStudent.bind(this);
+    this._refreshStudent = this._refreshStudent.bind(this);
   }
   componentWillMount() {
-    axios.get('https://localhost:44325/api/Student')
-      .then((response) => {
-        this.setState({
-          students: response.data
-        })
-      })
+    this._refreshStudent();
   };
   toggleModal() {
     this.setState({
@@ -56,25 +52,63 @@ class Student extends React.Component {
         })
       })
   }
-  editStudent(id,name,address,age,status){
+  editStudent(id, name, address, age, status) {
     this.setState({
       showModalEdit: !this.state.showModalEdit,
-      editStudent:{id,name,address,age,status}
+      editStudent: { id, name, address, age, status }
     })
 
   }
-  CancelEdit(){
+  CancelEdit() {
     this.setState({
-      showModalEdit:false
+      showModalEdit: false
     })
   }
-  Cancel(){
+  Cancel() {
     this.setState({
-      showModal:false
+      showModal: false
     })
   }
-  updateStudent(){
-    
+  updateStudent() {
+    let { name, address, age, status } = this.state.editStudent;
+    //api/student/id
+    axios.put('https://localhost:44325/api/Student/' + this.state.editStudent.id, {
+      name, address, age, status
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
+    }).then((res) => {
+      console.log(res.data)
+      this._refreshStudent();
+      this.setState({
+        showModalEdit: false,
+        editStudent: {
+          id: 0,
+          name: '',
+          address: '',
+          age: 0,
+          status: true
+        }
+      })
+    }).catch(err => {
+      console.log(err.response)
+    })
+  }
+  _refreshStudent() {
+    axios.get('https://localhost:44325/api/Student')
+      .then((response) => {
+        this.setState({
+          students: response.data
+        })
+      })
+  }
+
+  deleteStudent(id) {
+    axios.delete('https://localhost:44325/api/Student/' + id)
+      .then((res) => {
+        this._refreshStudent();
+      });
   }
   render() {
     var students = this.state.students;
@@ -218,8 +252,8 @@ class Student extends React.Component {
                 <td>{item.age}</td>
                 <td>{item.status === true ? "Active" : "Block"}</td>
                 <td>
-                  <button className="btn btn-success" onClick={this.editStudent.bind(this,item.id,item.name,item.address,item.age,item.status)}>Edit</button>
-                  <button className="btn btn-danger">Delete</button>
+                  <button className="btn btn-success" onClick={this.editStudent.bind(this, item.id, item.name, item.address, item.age, item.status)}>Edit</button>
+                  <button className="btn btn-danger" onClick={this.deleteStudent.bind(this, item.id)}>Delete</button>
                 </td>
               </tr>
             ))}
